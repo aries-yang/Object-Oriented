@@ -1,0 +1,43 @@
+一：arguments
+每个函数的内部都有一个内建arguments数组，它能返回函数所接收的所有参数。例如
+function args(){
+    return arguments;
+}
+>>> args();
+[]
+>>> args(1,2,3,false, 'fe')
+[1,2,3,false,'fe']
+通过arguments数组，我们可以进一步完善sum()函数的功能，使之能对任意数量的参数进行求和运算。
+function sum(){
+	var total = 0;
+	for(let i = 0; i < arguments.length; i++){
+		total += arguments[i];
+	}
+	return total;
+}
+>>> sum(1,2,3,4)
+>>> 10
+二：函数的默认参数Default parameters
+1.函数的参数可以指定默认值，当调用一个函数时，如果一个参数被省略掉，分配给参数的默认值会被使用
+function render(fog_level = 0, spark_level = 100){
+	console.log(`Fog_level: ${fog_level} and spark_level: ${spark_level}`)
+}
+render(10);//Fog Level: 10 and spark_level: 100
+2.需要注意的是如果传入undefined参数，undefined默认为是没有参数值，例如
+render(undefined, 10)//Fog Level: 0 and spark_level: 10
+3.默认参数的作用域
+默认参数都有自己的作用域，这个作用域位于外部函数和内部函数之间，如果在一个函数内部有一个变量名和默认参数参数一样，我们惊奇的发现内部变量值没有起作用。
+var scope = 'outer_scope'
+function scoper(val = scope){
+	var scope = 'inner_scope'
+	console.log(val);
+}
+scoper();//outer_scope
+4.不定参数rest parameters
+在es6中，rest parameters要取代arguments,因为rest parameters是一个真实的数组，所有数组的方法rest parameters都可以用
+function sayThings(tone, ...quotes){
+console.log(Array.isArray(quotes)); //true
+console.log(`In ${tone} voice, I say ${quotes}`)
+}
+sayThings("Morgan Freeman","Something serious","Imploding Universe"," Amen");
+//In Morgan Freeman voice, I say Something serious,Imploding Universe,Amen
